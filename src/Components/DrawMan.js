@@ -1,19 +1,20 @@
-import { Box, Typography } from "@mui/material"
+import { Box, TextField, Typography } from "@mui/material"
 import * as React from "react";
 import eventBus from "../Services/EventBus";
 
 export default function DrawMan(props) {
     const organsNumber = props.organsNumber;
     const [drawnOrgans, setDrawnOrgans] = React.useState(0);
+    const [notes, setNotes] = React.useState('');
 
     React.useEffect(() => {
         const subscription = eventBus.on('buttonClick', () => {
-            localStorage.setItem('drawManData', drawnOrgans);
+            localStorage.setItem('drawManData', [drawnOrgans, notes]);
         });
         return () => {
             subscription.off();
         };
-    }, [drawnOrgans]);
+    }, [drawnOrgans, notes]);
 
     return (<>
         <Box sx={{ width: '100%' }}>
@@ -30,6 +31,7 @@ export default function DrawMan(props) {
                 <label><b> {organsNumber}/ </b></label>
                 <label><input type="number" style={{ width: 40, fontSize: 20 }} min={0} max={organsNumber} onChange={(event) => setDrawnOrgans(event.target.value)} /></label>
             </Box>
+            <TextField sx={{ marginTop: 5, marginBottom: 5, width: '100%', textAlign: 'left' }} multiline label='הערות' textAlign='left' value={notes} onChange={(event) => setNotes(event.target.value)}/>
         </Box></>
     )
 }

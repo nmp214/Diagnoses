@@ -36,19 +36,25 @@ export default function Painting(props) {
     const [handNotes, setHandNotes] = React.useState('');
     const [pencilNotes, setPencilNotes] = React.useState('');
     const [auxiliaryNotes, setAuxiliaryNotes] = React.useState('');
+    const [accurateNotes1, setAccurateNotes1] = React.useState('');
+    const [accurateNotes2, setAccurateNotes2] = React.useState('');
+    const [fillNotes1, setFillNotes1] = React.useState('');
+    const [fillNotes2, setFillNotes2] = React.useState('');
 
     React.useEffect(() => {
         const subscription = eventBus.on('buttonClick', () => {
             if (shapes.length === 1)
-                localStorage.setItem('paintingData', [painting, dominantHand, pencilGrip, auxiliaryHandFunction, accurateShape1, fillingShape1]);
+                localStorage.setItem('paintingData', [painting, dominantHand, pencilGrip, auxiliaryHandFunction, accurateShape1, fillingShape1, handNotes, pencilNotes, auxiliaryNotes, accurateNotes1, fillNotes1]);
             else
-                localStorage.setItem('paintingData', [painting, dominantHand, pencilGrip, auxiliaryHandFunction, accurateShape1, accurateShape2, fillingShape1, fillingShape2]);
+                localStorage.setItem('paintingData', [painting, dominantHand, pencilGrip, auxiliaryHandFunction, accurateShape1, accurateShape2, fillingShape1, fillingShape2,
+                    handNotes, pencilNotes, auxiliaryNotes, accurateNotes1, accurateNotes2, fillNotes1, fillNotes2]);
         });
         return () => {
             subscription.off();
         };
     }, [painting, dominantHand, pencilGrip, auxiliaryHandFunction, accurateShape1, accurateShape2, fillingShape1, fillingShape2,
-        selectedValue1, selectedValue2, selectedValue3, selectedValue4I, selectedValue4II, selectedValue5I, selectedValue5II, shapes]);
+        selectedValue1, selectedValue2, selectedValue3, selectedValue4I, selectedValue4II, selectedValue5I, selectedValue5II, shapes,
+        accurateNotes1, accurateNotes2, fillNotes1, fillNotes2]);
 
     const handleRadioChanges = (event) => {
         let index = event.target.value[1] - 1;
@@ -146,21 +152,21 @@ export default function Painting(props) {
     return (<>
         <Box sx={{ width: '100%' }} >
             <div style={{ display: 'flex' }}>
-               <span style={{ marginLeft: 4 }}>(טוש עבה)-</span> 
+                <span style={{ marginLeft: 4 }}>(טוש עבה)-</span>
                 {shapes.map((shape, index) =>
                     <div key={index} style={{ marginLeft: 4 }}>
                         {shape}
-                        {index != shapes.length-1 && <span>,</span>}
+                        {index != shapes.length - 1 && <span>,</span>}
                     </div>
                 )}
-                {toNum !== undefined && 
-            <>   (צורות {fromNum}-{toNum})</>
-                || <>(צורה מספר {fromNum})</>
+                {toNum !== undefined &&
+                    <>   (צורות {fromNum}-{toNum})</>
+                    || <>(צורה מספר {fromNum})</>
                 }:
             </div>
             <div style={{ marginTop: 6, marginBottom: 20 }}>
-               <b>{instruction}</b>
-               </div>
+                <b>{instruction}</b>
+            </div>
             <TableContainer component={Paper}>
                 <Table sx={{ minWidth: 800 }} aria-label="simple table">
                     <TableHead>
@@ -183,7 +189,7 @@ export default function Painting(props) {
                             <TableCell align="right" onChange={handleRadioChanges}>
                                 <Radio id='b1' {...controlProps1('b1')} color="primary" />
                                 לא ברור</TableCell>
-                                <TableCell><TextField multiline value={handNotes} onChange={(event) => setHandNotes(event.target.value)}/></TableCell>
+                            <TableCell><TextField multiline value={handNotes} onChange={(event) => setHandNotes(event.target.value)} /></TableCell>
                         </TableRow>
                         <TableRow
                             key='pencilGrip'
@@ -198,7 +204,7 @@ export default function Painting(props) {
                             <TableCell align="right" onChange={handleRadioChanges}>
                                 <Radio id='b2' {...controlProps2('b2')} color="primary" />
                                 לא יעילה</TableCell>
-                                <TableCell><TextField multiline value={pencilNotes} onChange={(event) => setPencilNotes(event.target.value)}/></TableCell>
+                            <TableCell><TextField multiline value={pencilNotes} onChange={(event) => setPencilNotes(event.target.value)} /></TableCell>
                         </TableRow>
                         <TableRow
                             key='auxiliaryHandFunction'
@@ -213,7 +219,7 @@ export default function Painting(props) {
                             <TableCell align="right" onChange={handleRadioChanges}>
                                 <Radio id='b3' {...controlProps3('b3')} color="primary" />
                                 חלקי</TableCell>
-                                <TableCell><TextField multiline value={auxiliaryNotes} onChange={(event) => setAuxiliaryNotes(event.target.value)}/></TableCell>
+                            <TableCell><TextField multiline value={auxiliaryNotes} onChange={(event) => setAuxiliaryNotes(event.target.value)} /></TableCell>
                         </TableRow>
                         {shapes.map((shape, index) =>
                             <TableRow
@@ -231,7 +237,8 @@ export default function Painting(props) {
                                         name='`color-radio-button-demo-${index}`'
                                         inputProps={{ 'aria-label': `a4${index}` }}
                                         color="primary" />
-                                    מדייק</TableCell>
+                                    מדייק
+                                </TableCell>
                                 <TableCell align="right" onChange={handleRadioChanges}>
                                     <Radio
                                         value={`b4${index}`}
@@ -240,7 +247,13 @@ export default function Painting(props) {
                                         name='`color-radio-button-demo-${index}`'
                                         inputProps={{ 'aria-label': `b4${index}` }}
                                         color="primary" />
-                                    לא מדייק</TableCell>
+                                    לא מדייק
+                                </TableCell>
+                                {index === 0 &&
+                                    <TableCell><TextField multiline value={accurateNotes1} onChange={(event) => setAccurateNotes1(event.target.value)} /></TableCell>
+                                    ||
+                                    <TableCell><TextField multiline value={accurateNotes2} onChange={(event) => setAccurateNotes2(event.target.value)} /></TableCell>
+                                }
                             </TableRow>
                         )}
                         {shapes.map((shape, index) =>
@@ -259,7 +272,8 @@ export default function Painting(props) {
                                         name='`color-radio-button-demo-${index}`'
                                         inputProps={{ 'aria-label': `a5${index}` }}
                                         color="primary" />
-                                    מלא</TableCell>
+                                    מלא
+                                </TableCell>
                                 <TableCell align="right" onChange={handleRadioChanges}>
                                     <Radio
                                         value={`b5${index}`}
@@ -268,7 +282,13 @@ export default function Painting(props) {
                                         name='`color-radio-button-demo-${index}`'
                                         inputProps={{ 'aria-label': `b5${index}` }}
                                         color="primary" />
-                                    לא מלא</TableCell>
+                                    לא מלא
+                                </TableCell>
+                                {index === 0 &&
+                                    <TableCell><TextField multiline value={fillNotes1} onChange={(event) => setFillNotes1(event.target.value)} /></TableCell>
+                                    ||
+                                    <TableCell><TextField multiline value={fillNotes2} onChange={(event) => setFillNotes2(event.target.value)} /></TableCell>
+                                }
                             </TableRow>
                         )}
                     </TableBody>

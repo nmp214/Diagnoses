@@ -8,7 +8,7 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { orange } from '@mui/material/colors';
 import Radio from '@mui/material/Radio';
-import { Box, Typography } from '@mui/material';
+import { Box, TextField, Typography } from '@mui/material';
 import eventBus from '../Services/EventBus';
 
 export default function CopyName(props) {
@@ -24,21 +24,25 @@ export default function CopyName(props) {
     const [readability, setReadability] = React.useState(0);
     const [organization, setOrganization] = React.useState(0);
     const [readabilityAndOrganization, setReadabilityAndOrganization] = React.useState(0);
+    const [accurateNotes, setAccurateNotes] = React.useState('');
+    const [readabilityNotes, setReadabilityNotes] = React.useState('');
+    const [organizationNotes, setOrganizationNotes] = React.useState('');
+    const [readAndOrganNotes, setReadAndOrganNotes] = React.useState('');
     const [copyName, setCopyName] = React.useState(0);
-
 
     React.useEffect(() => {
         const subscription = eventBus.on('buttonClick', () => {
             if (ageRange === '4-5')
-                localStorage.setItem('copyNameData', [copyName, accuracy, readability, organization]);
+                localStorage.setItem('copyNameData', [copyName, accuracy, readability, organization, accurateNotes, readabilityNotes, organizationNotes]);
             else
-                localStorage.setItem('copyNameData', [copyName, accuracy, readabilityAndOrganization]);
+                localStorage.setItem('copyNameData', [copyName, accuracy, readabilityAndOrganization, accurateNotes, readAndOrganNotes]);
 
         });
         return () => {
             subscription.off();
         };
-    }, [copyName, accuracy, readability, organization, readabilityAndOrganization]);
+    }, [copyName, accuracy, readability, organization, readabilityAndOrganization,
+    accurateNotes, readabilityNotes, organizationNotes, readAndOrganNotes]);
 
     const handleRadioChanges = (event) => {
         console.log('in handleRadioChanges', event.target.value);
@@ -132,12 +136,13 @@ export default function CopyName(props) {
                     <b>{instruction2}</b>
                 </div>}
             <TableContainer component={Paper}>
-                <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                <Table sx={{ minWidth: 800 }} aria-label="simple table">
                     <TableHead>
                         <TableRow>
                             <TableCell></TableCell>
-                            <TableCell align="right">1     </TableCell>
-                            <TableCell align="right">0     </TableCell>
+                            <TableCell align="center">1     </TableCell>
+                            <TableCell align="center">0     </TableCell>
+                            <TableCell align='center'>הערות</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -164,6 +169,7 @@ export default function CopyName(props) {
                                 השמטת אותיות, בלבול בסדר,
                                 כתיבה משמאל לימין
                             </TableCell>
+                            <TableCell><TextField multiline value={accurateNotes} onChange={(event) => setAccurateNotes(event.target.value)} /></TableCell>
                         </TableRow>
                         {ageRange === '4-5' &&
                             <TableRow
@@ -189,6 +195,7 @@ export default function CopyName(props) {
                                     }} />
                                     בלתי קריא
                                 </TableCell>
+                                <TableCell><TextField multiline value={readabilityNotes} onChange={(event) => setReadabilityNotes(event.target.value)} /></TableCell>
                             </TableRow>
                         }
                         {ageRange === '4-5' &&
@@ -214,7 +221,9 @@ export default function CopyName(props) {
                                             color: orange[800],
                                         },
                                     }} />
-                                    לקויה</TableCell>
+                                    לקויה
+                                </TableCell>
+                                <TableCell><TextField multiline value={organizationNotes} onChange={(event) => setOrganizationNotes(event.target.value)} /></TableCell>
                             </TableRow>
                             ||
                             <TableRow
@@ -239,7 +248,9 @@ export default function CopyName(props) {
                                             color: orange[800],
                                         },
                                     }} />
-                                    בלתי קריא והתארגנות לקויה</TableCell>
+                                    בלתי קריא והתארגנות לקויה
+                                </TableCell>
+                                <TableCell><TextField multiline value={readAndOrganNotes} onChange={(event) => setReadAndOrganNotes(event.target.value)} /></TableCell>
                             </TableRow>
                         }
                     </TableBody>

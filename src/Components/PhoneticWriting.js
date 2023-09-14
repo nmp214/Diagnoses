@@ -1,4 +1,4 @@
-import { Box, Checkbox, Radio, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
+import { Box, Checkbox, Radio, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField } from "@mui/material";
 import Paper from '@mui/material/Paper';
 import React from "react";
 import eventBus from "../Services/EventBus";
@@ -23,16 +23,21 @@ export default function PhoneticWriting(props) {
     const [beetle, setBeetle] = React.useState(0);
     const [selectedData0, setSelectedData0] = React.useState([]);
     const [selectedData1, setSelectedData1] = React.useState([]);
+    const [fishNotes, setFishNotes] = React.useState('');
+    const [dogNotes, setDogNotes] = React.useState('');
+    const [catNotes, setCatNotes] = React.useState('');
+    const [beetleNotes, setBeetleNotes] = React.useState('');
     const [phoneticWriting, setPhoneticWriting] = React.useState(0);
 
     React.useEffect(() => {
         const subscription = eventBus.on('buttonClick', () => {
-            localStorage.setItem('phoneticWritingData', [phoneticWriting, fish, dog, cat, beetle, selectedData0, selectedData1]);
+            localStorage.setItem('phoneticWritingData', [phoneticWriting, fish, dog, cat, beetle, selectedData0, selectedData1, fishNotes, dogNotes, catNotes, beetleNotes]);
         });
         return () => {
             subscription.off();
         };
-    }, [phoneticWriting, fish, dog, cat, beetle, selectedData0, selectedData1]);
+    }, [phoneticWriting, fish, dog, cat, beetle, selectedData0, selectedData1,
+    fishNotes, dogNotes, catNotes, beetleNotes]);
 
     const handleChanges = (rowIndex, value) => {
         console.log('value: ', value);
@@ -95,13 +100,14 @@ export default function PhoneticWriting(props) {
             </div>
         </div>
         <TableContainer component={Paper}>
-            <Table sx={{ minWidth: 650 }} aria-label="simple table">
+            <Table sx={{ minWidth: '100%' }} aria-label="simple table">
                 <TableHead>
                     <TableRow sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-                        <TableCell align="center" sx={{ width: '15%' }}></TableCell>
+                        <TableCell align="center" sx={{ width: '10%' }}></TableCell>
                         <TableCell align="center" sx={{ width: '25%' }}>2</TableCell>
-                        <TableCell align="center" sx={{ width: '30%' }}>1</TableCell>
-                        <TableCell align="center" sx={{ width: '30%' }}>0</TableCell>
+                        <TableCell align="center" sx={{ width: '20%' }}>1</TableCell>
+                        <TableCell align="center" sx={{ width: '25%' }}>0</TableCell>
+                        <TableCell align="center" sx={{ width: '20%' }}>הערות</TableCell>
                     </TableRow>
                     <TableRow sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
                         <TableCell></TableCell>
@@ -145,12 +151,24 @@ export default function PhoneticWriting(props) {
                                         onChange={() => { handleCheckboxChange(rowIndex, index); setPhoneticWriting(phoneticWriting + index); }}
                                     />
                                 </TableCell>)}
+                            {rowIndex === 0 &&
+                                <TableCell><TextField multiline value={fishNotes} onChange={(event) => setFishNotes(event.target.value)} /></TableCell>
+                            }
+                            {rowIndex === 1 &&
+                                <TableCell><TextField multiline value={dogNotes} onChange={(event) => setDogNotes(event.target.value)} /></TableCell>
+                            }
+                            {rowIndex === 2 &&
+                                <TableCell><TextField multiline value={catNotes} onChange={(event) => setCatNotes(event.target.value)} /></TableCell>
+                            }
+                            {rowIndex === 3 &&
+                                <TableCell><TextField multiline value={beetleNotes} onChange={(event) => setBeetleNotes(event.target.value)} /></TableCell>
+                            }
                         </TableRow>)}
                 </TableBody>
             </Table>
         </TableContainer>
         <Box sx={{ fontSize: 20, margin: 3 }}>
-            <label><b>  סך הכל כתיבה פונטית:</b></label>
+            <label><b>  סך הכל כתיבה פונטית: </b></label>
             <label><b>{phoneticWriting}</b></label>
             <label><b>/8</b></label></Box>
     </Box>)

@@ -7,7 +7,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import Radio from '@mui/material/Radio';
-import { Box, Typography } from '@mui/material';
+import { Box, TextField, Typography } from '@mui/material';
 import eventBus from '../Services/EventBus';
 
 
@@ -24,16 +24,29 @@ export default function Cutting(props) {
     const [sequenceShape1, setSequenceShape1] = React.useState(0);
     const [sequenceShape2, setSequenceShape2] = React.useState(0);
     const [accuracyShapes, setAccuracyShapes] = React.useState(0);
+    const [handNotes, setHandNotes] = React.useState('');
+    const [pencilNotes, setPencilNotes] = React.useState('');
+    const [auxiliaryNotes, setAuxiliaryNotes] = React.useState('');
+    const [productNotes1, setProductNotes1] = React.useState('');
+    const [productNotes2, setProductNotes2] = React.useState('');
+    const [sequenceNotes1, setSequenceNotes1] = React.useState('');
+    const [sequenceNotes2, setSequenceNotes2] = React.useState('');
 
     console.log(fromNum, ' ', toNum);
     React.useEffect(() => {
         const subscription = eventBus.on('buttonClick', () => {
-            localStorage.setItem('cuttingData', [accuracyShapes, dominantHand, pencilGrip, auxiliaryHandFunction, productShape1, productShape2, sequenceShape1, sequenceShape2]);
+            if (shapes.length === 1)
+                localStorage.setItem('cuttingData', [accuracyShapes, dominantHand, pencilGrip, auxiliaryHandFunction, productShape1, sequenceShape1,
+                    handNotes, pencilNotes, auxiliaryNotes, productNotes1, sequenceNotes1]);
+            else
+                localStorage.setItem('cuttingData', [accuracyShapes, dominantHand, pencilGrip, auxiliaryHandFunction, productShape1, productShape2, sequenceShape1, sequenceShape2,
+                    handNotes, pencilNotes, auxiliaryNotes, productNotes1, productNotes2, sequenceNotes1, sequenceNotes2]);
         });
         return () => {
             subscription.off();
         };
-    }, [accuracyShapes, dominantHand, pencilGrip, auxiliaryHandFunction, productShape1, productShape2, sequenceShape1, sequenceShape2]);
+    }, [accuracyShapes, dominantHand, pencilGrip, auxiliaryHandFunction, productShape1, productShape2, sequenceShape1, sequenceShape2,
+        handNotes, pencilNotes, auxiliaryNotes, productNotes1, productNotes2, sequenceNotes1, sequenceNotes2]);
 
 
     const handleRadioChanges = (event) => {
@@ -172,13 +185,17 @@ export default function Cutting(props) {
                             sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                         >
                             <TableCell component="th" scope="row">
-                                יד דומיננטית</TableCell>
+                                יד דומיננטית
+                            </TableCell>
                             <TableCell align="right" onChange={handleRadioChanges} >
                                 <Radio {...controlProps1('a1')} color="secondary" />
-                                ימין או שמאל</TableCell>
+                                ימין או שמאל
+                            </TableCell>
                             <TableCell align="right" onChange={handleRadioChanges}>
                                 <Radio {...controlProps1('b1')} color="secondary" />
-                                לא ברור</TableCell>
+                                לא ברור
+                            </TableCell>
+                            <TableCell><TextField multiline value={handNotes} onChange={(event) => setHandNotes(event.target.value)} /></TableCell>
                         </TableRow>
                         <TableRow
                             key='pencilGrip'
@@ -189,10 +206,13 @@ export default function Cutting(props) {
                             </TableCell>
                             <TableCell align="right" onChange={handleRadioChanges}>
                                 <Radio {...controlProps2('a2')} color="secondary" />
-                                יעילה</TableCell>
+                                יעילה
+                            </TableCell>
                             <TableCell align="right" onChange={handleRadioChanges}>
                                 <Radio {...controlProps2('b2')} color="secondary" />
-                                לא יעילה</TableCell>
+                                לא יעילה
+                            </TableCell>
+                            <TableCell><TextField multiline value={pencilNotes} onChange={(event) => setPencilNotes(event.target.value)} /></TableCell>
                         </TableRow>
                         <TableRow
                             key='auxiliaryHandFunction'
@@ -207,6 +227,7 @@ export default function Cutting(props) {
                             <TableCell align="right">
                                 <Radio {...controlProps3('b3')} color="secondary" onClick={handleRadioChanges} />
                                 חלקי</TableCell>
+                            <TableCell><TextField multiline value={auxiliaryNotes} onChange={(event) => setAuxiliaryNotes(event.target.value)} /></TableCell>
                         </TableRow>
                         {shapes.map((shape, index) =>
                             <TableRow
@@ -224,7 +245,8 @@ export default function Cutting(props) {
                                         name='`color-radio-button-demo-${index}`'
                                         inputProps={{ 'aria-label': `a4${index}` }}
                                         color="secondary" />
-                                    מדויק</TableCell>
+                                    מדויק
+                                </TableCell>
                                 <TableCell align="right" onChange={handleRadioChanges}>
                                     <Radio
                                         value={`b4${index}`}
@@ -234,7 +256,13 @@ export default function Cutting(props) {
                                         inputProps={{ 'aria-label': `b4${index}` }}
                                         color="secondary"
                                     />
-                                    לא מדויק</TableCell>
+                                    לא מדויק
+                                </TableCell>
+                                {index === 0 &&
+                                    <TableCell><TextField multiline value={productNotes1} onChange={(event) => setProductNotes1(event.target.value)} /></TableCell>
+                                    ||
+                                    <TableCell><TextField multiline value={productNotes2} onChange={(event) => setProductNotes2(event.target.value)} /></TableCell>
+                                }
                             </TableRow>
                         )}
                         {shapes.map((shape, index) =>
@@ -254,7 +282,8 @@ export default function Cutting(props) {
                                         inputProps={{ 'aria-label': `a5${index}` }}
                                         color="secondary"
                                     />
-                                    תקין</TableCell>
+                                    תקין
+                                </TableCell>
                                 <TableCell align="right" onChange={handleRadioChanges}>
                                     <Radio
                                         value={`b5${index}`}
@@ -263,7 +292,13 @@ export default function Cutting(props) {
                                         name='`color-radio-button-demo-${index}`'
                                         inputProps={{ 'aria-label': `b5${index}` }}
                                         color="secondary" />
-                                    מתקשה</TableCell>
+                                    מתקשה
+                                </TableCell>
+                                {index === 0 &&
+                                    <TableCell><TextField multiline value={sequenceNotes1} onChange={(event) => setSequenceNotes1(event.target.value)} /></TableCell>
+                                    ||
+                                    <TableCell><TextField multiline value={sequenceNotes2} onChange={(event) => setSequenceNotes2(event.target.value)} /></TableCell>
+                                }
                             </TableRow>
                         )}
                     </TableBody>

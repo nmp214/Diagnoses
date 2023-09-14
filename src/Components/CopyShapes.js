@@ -38,7 +38,15 @@ export default function CopyShapes(props) {
             console.log(currentShapes);
             const totalSum = dominantHand + pencilGrip + auxiliaryHandFunction + shapes.length;
             const notes = [handNotes, pencilNotes, auxiliaryNotes];
-            localStorage.setItem('copyShapesData', [copyShapes, dominantHand, pencilGrip, auxiliaryHandFunction, notes, shapes]);
+            // localStorage.setItem('copyShapesData', [copyShapes, dominantHand, pencilGrip, auxiliaryHandFunction, handNotes, pencilNotes, auxiliaryNotes, shapes]);
+            localStorage.setItem('copyShapes', copyShapes);
+            localStorage.setItem('dominantHand', dominantHand);
+            localStorage.setItem('pencilGrip', pencilGrip);
+            localStorage.setItem('auxiliaryHandFunction', auxiliaryHandFunction);
+            localStorage.setItem('handNotes', handNotes);
+            localStorage.setItem('pencilNotes', pencilNotes);
+            localStorage.setItem('auxiliaryNotes', auxiliaryNotes);
+            localStorage.setItem('shapes', shapes);
         });
         return () => {
             subscription.off();

@@ -163,10 +163,6 @@ export default function GIFT() {
                             <Box sx={{ maxWidth: 900 }}>
                                 <Painting ageRange={range} fromNum={fromNumPainting} toNum={toNumPainting} shapes={paintingShapes} instruction={instructions[0]} />
                             </Box>
-                            <div>
-                                <TextField id="paintingNotes" multiline
-                                    rows={8} label="הערות" value={paintingNotes} onChange={(event) => setPaintingNotes(event.target.value)} />
-                            </div>
                         </Grid>
                     </RoundedPaper>
                 </DemoDiv>
@@ -187,10 +183,6 @@ export default function GIFT() {
                             <Box sx={{ maxWidth: 900 }}>
                                 <Cutting ageRange={range} shapes={cuttingShapes} fromNumCutting={fromNumCutting} toNum={toNumCutting} instruction={instructions[1]} />
                             </Box>
-                            <div>
-                                <TextField id="cuttingNotes" multiline
-                                    rows={8} label="הערות" onChange={(event) => setCuttingNotes(event.target.value)} />
-                            </div>
                         </Grid>
                     </RoundedPaper>
                 </DemoDiv>
