@@ -7,9 +7,8 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import Radio from '@mui/material/Radio';
-import { Box, TextField, Typography } from '@mui/material';
+import { Box, TextField } from '@mui/material';
 import eventBus from '../Services/EventBus';
-
 
 export default function Painting(props) {
     const shapes = props.shapes || [];
@@ -25,7 +24,7 @@ export default function Painting(props) {
     const [selectedValue5I, setSelectedValue5I] = React.useState('b');
     const [selectedValue5II, setSelectedValue5II] = React.useState('b');
     const selectValues = [selectedValue1, selectedValue2, selectedValue3, selectedValue4I, selectedValue4II, selectedValue5I, selectedValue5II]
-    const [painting, setPainting] = React.useState(0);
+    const [totalSum, setTotalSum] = React.useState(0);
     const [dominantHand, setDominantHand] = React.useState(0);
     const [pencilGrip, setPencilGrip] = React.useState(0);
     const [auxiliaryHandFunction, setAuxiliaryHandFunction] = React.useState(0);
@@ -43,16 +42,26 @@ export default function Painting(props) {
 
     React.useEffect(() => {
         const subscription = eventBus.on('buttonClick', () => {
-            if (shapes.length === 1)
-                localStorage.setItem('paintingData', [painting, dominantHand, pencilGrip, auxiliaryHandFunction, accurateShape1, fillingShape1, handNotes, pencilNotes, auxiliaryNotes, accurateNotes1, fillNotes1]);
-            else
-                localStorage.setItem('paintingData', [painting, dominantHand, pencilGrip, auxiliaryHandFunction, accurateShape1, accurateShape2, fillingShape1, fillingShape2,
-                    handNotes, pencilNotes, auxiliaryNotes, accurateNotes1, accurateNotes2, fillNotes1, fillNotes2]);
+            localStorage.setItem('totalSumP', totalSum);
+            localStorage.setItem('dominantHandP', dominantHand);
+            localStorage.setItem('pencilGripP', pencilGrip);
+            localStorage.setItem('auxiliaryHandFunctionP', auxiliaryHandFunction);
+            localStorage.setItem('accurateShape1', accurateShape1);
+            localStorage.setItem('accurateShape2', accurateShape2);
+            localStorage.setItem('fillingShape1', fillingShape1);
+            localStorage.setItem('fillingShape2', fillingShape2);
+            localStorage.setItem('handNotesP', handNotes);
+            localStorage.setItem('pencilNotesP', pencilNotes);
+            localStorage.setItem('auxiliaryNotesP', auxiliaryNotes);
+            localStorage.setItem('accurateNotes1', accurateNotes1);
+            localStorage.setItem('accurateNotes2', accurateNotes2);
+            localStorage.setItem('fillNotes1', fillNotes1);
+            localStorage.setItem('fillNotes2', fillNotes2);
         });
         return () => {
             subscription.off();
         };
-    }, [painting, dominantHand, pencilGrip, auxiliaryHandFunction, accurateShape1, accurateShape2, fillingShape1, fillingShape2,
+    }, [totalSum, dominantHand, pencilGrip, auxiliaryHandFunction, accurateShape1, accurateShape2, fillingShape1, fillingShape2,
         selectedValue1, selectedValue2, selectedValue3, selectedValue4I, selectedValue4II, selectedValue5I, selectedValue5II, shapes,
         accurateNotes1, accurateNotes2, fillNotes1, fillNotes2]);
 
@@ -65,11 +74,11 @@ export default function Painting(props) {
         console.log(index);
         if (event.target.value.includes('a')) {
             if (selectValues[index].includes('b'))
-                setPainting(painting + 1);
+                setTotalSum(totalSum + 1);
         }
         else {
             if (selectValues[index].includes('a'))
-                setPainting(painting - 1);
+                setTotalSum(totalSum - 1);
         }
     }
 
@@ -297,7 +306,7 @@ export default function Painting(props) {
             <div >
                 <Box sx={{ fontSize: 20, margin: 3 }}>
                     <label><b>  סך הכל צביעה:</b></label>
-                    <label><b> {painting}</b></label>
+                    <label><b> {totalSum}</b></label>
                     <label><b>/{shapes.length * 2 + 3}</b></label>
                 </Box>
             </div>

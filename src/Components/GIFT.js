@@ -15,7 +15,7 @@ import CopyName from './CopyName';
 import WritingAB from './WritingAB';
 import WritingNums from './WritingNums';
 import PhoneticWriting from './PhoneticWriting';
-import { ShortResult } from './ShortResult';
+import ShortResult from './ShortResult';
 import ReactDOM from 'react-dom';
 import ExtendedResults from './ExtendedResults';
 
@@ -60,9 +60,9 @@ export default function GIFT() {
 
     const openExtendedResults = () => {
         const newWindow = window.open('', '_blank');
-        newWindow.document.write('<html><head><title>תוצאות מורחבות</title></head><body><div id="root"></div></body></html>');
+        newWindow.document.write('<html><head><title>תוצאות מורחבות</title></head><style>*{font-family: Segoe UI; text-align: right;}</style><body><div id="root"></div></body></html>');
         const newWindowRoot = newWindow.document.getElementById('root');
-        ReactDOM.render(<ExtendedResults />, newWindowRoot);
+        ReactDOM.render(<ExtendedResults toNum={toNumCopyShapes} fromNum={fromNumCopyShapes} paintingShapes={paintingShapes} />, newWindowRoot);
     };
 
     const something = (event) => {

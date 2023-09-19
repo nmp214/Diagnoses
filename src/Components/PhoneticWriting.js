@@ -6,8 +6,8 @@ import eventBus from "../Services/EventBus";
 export default function PhoneticWriting(props) {
     const rows = ['דג', 'כלב', 'חתול', 'חיפושית'];
     const words = ['fish', 'dog', 'cat', 'beetle'];
-    const data1 = ['ייצוג חלקי של האותיות', 'בלבול קל בסדר', 'התארגנות חלקית'];
-    const data0 = ['שימוש אקראי באותיות', 'ללא סדר', 'כתיבה משמאל לימין', 'בלתי קריא', 'ההתארגנות לקויה'];
+    // const data1 = ['ייצוג חלקי של האותיות', 'בלבול קל בסדר', 'התארגנות חלקית'];
+    // const data0 = ['שימוש אקראי באותיות', 'ללא סדר', 'כתיבה משמאל לימין', 'בלתי קריא', 'ההתארגנות לקויה'];
     const [selectedIndexes, setSelectedIndexes] = React.useState(rows.map(() => -1));
     const [data00, setData00] = React.useState(false);
     const [data01, setData01] = React.useState(false);
@@ -27,16 +27,26 @@ export default function PhoneticWriting(props) {
     const [dogNotes, setDogNotes] = React.useState('');
     const [catNotes, setCatNotes] = React.useState('');
     const [beetleNotes, setBeetleNotes] = React.useState('');
-    const [phoneticWriting, setPhoneticWriting] = React.useState(0);
+    const [totalSum, setTotalSum] = React.useState(0);
 
     React.useEffect(() => {
         const subscription = eventBus.on('buttonClick', () => {
-            localStorage.setItem('phoneticWritingData', [phoneticWriting, fish, dog, cat, beetle, selectedData0, selectedData1, fishNotes, dogNotes, catNotes, beetleNotes]);
+            localStorage.setItem('totalSumPW',totalSum);
+            localStorage.setItem('fish',fish);
+            localStorage.setItem('dog',dog);
+            localStorage.setItem('cat',cat);
+            localStorage.setItem('beetle',beetle);
+            localStorage.setItem('selectedData0',selectedData0);
+            localStorage.setItem('selectedData1',selectedData1);
+            localStorage.setItem('fishNotes',fishNotes);
+            localStorage.setItem('dogNotes',dogNotes);
+            localStorage.setItem('catNotes',catNotes);
+            localStorage.setItem('beetleNotes',beetleNotes);
         });
         return () => {
             subscription.off();
         };
-    }, [phoneticWriting, fish, dog, cat, beetle, selectedData0, selectedData1,
+    }, [totalSum, fish, dog, cat, beetle, selectedData0, selectedData1,
     fishNotes, dogNotes, catNotes, beetleNotes]);
 
     const handleChanges = (rowIndex, value) => {
@@ -63,7 +73,7 @@ export default function PhoneticWriting(props) {
 
     const changeSum = () => {
         const sum = fish + dog + cat + beetle;
-        setPhoneticWriting(sum);
+        setTotalSum(sum);
     }
     const handleRadioChanges = (event) => {
         if (event.target.checked) {
@@ -148,7 +158,7 @@ export default function PhoneticWriting(props) {
                                         value={words[rowIndex]}
                                         id={index}
                                         checked={selectedIndexes[rowIndex] === index}
-                                        onChange={() => { handleCheckboxChange(rowIndex, index); setPhoneticWriting(phoneticWriting + index); }}
+                                        onChange={() => { handleCheckboxChange(rowIndex, index); setTotalSum(totalSum + index); }}
                                     />
                                 </TableCell>)}
                             {rowIndex === 0 &&
@@ -169,7 +179,7 @@ export default function PhoneticWriting(props) {
         </TableContainer>
         <Box sx={{ fontSize: 20, margin: 3 }}>
             <label><b>  סך הכל כתיבה פונטית: </b></label>
-            <label><b>{phoneticWriting}</b></label>
+            <label><b>{totalSum}</b></label>
             <label><b>/8</b></label></Box>
     </Box>)
 }

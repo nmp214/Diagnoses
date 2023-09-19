@@ -3,7 +3,7 @@ import React, { useEffect } from "react";
 import img from '../assets/border.png'
 import DownloadIcon from '@mui/icons-material/Download';
 
-export function ShortResult(props) {
+export default function ShortResult(props) {
     const name = props.name;
     const totalSummary = props.totalSummary;
     const range = props.range;

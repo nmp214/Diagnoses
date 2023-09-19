@@ -7,7 +7,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import Radio from '@mui/material/Radio';
-import { Box, TextField, Typography } from '@mui/material';
+import { Box, TextField } from '@mui/material';
 import eventBus from '../Services/EventBus';
 
 export default function WritingNums() {
@@ -17,7 +17,8 @@ export default function WritingNums() {
 
     React.useEffect(() => {
         const subscription = eventBus.on('buttonClick', () => {
-            localStorage.setItem('writingNumsData', parseInt(writingNums), notes);
+            localStorage.setItem('totalSumWN', parseInt(writingNums));
+            localStorage.setItem('notesWN', notes);
         });
         return () => {
             subscription.off();
@@ -84,7 +85,7 @@ export default function WritingNums() {
                     </TableBody>
                 </Table>
             </TableContainer>
-            <TextField sx={{ marginTop: 5, marginBottom: 5, width: '100%', textAlign: 'left' }} color='success' multiline label='הערות' textAlign='left' value={notes} onChange={(event) => setNotes(event.target.value)}/>
+            <TextField sx={{ marginTop: 5, marginBottom: 5, width: '100%', textAlign: 'left' }} color='success' multiline label='הערות' textAlign='left' value={notes} onChange={(event) => setNotes(event.target.value)} />
             <div >
                 <Box sx={{ fontSize: 20, margin: 3 }}>
                     <label><b>  סך הכל כתיבת ספרות:</b></label>

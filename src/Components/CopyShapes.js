@@ -7,7 +7,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import Radio from '@mui/material/Radio';
-import { Box, FormControlLabel, TextField, Typography } from '@mui/material';
+import { Box, FormControlLabel, TextField } from '@mui/material';
 import Checkbox from '@mui/material/Checkbox';
 import eventBus from '../Services/EventBus';
 
@@ -21,7 +21,7 @@ export default function CopyShapes(props) {
     const [selectedValue2, setSelectedValue2] = React.useState('b');
     const [selectedValue3, setSelectedValue3] = React.useState('b');
     const [accuracyShapes, setAccuracyShapes] = React.useState(0);
-    const [copyShapes, setCopyShapes] = React.useState(0);
+    const [totalSum, setTotalSum] = React.useState(0);
     const selectValues = [selectedValue1, selectedValue2, selectedValue3];
     const [dominantHand, setDominantHand] = React.useState(0);
     const [pencilGrip, setPencilGrip] = React.useState(0);
@@ -38,20 +38,19 @@ export default function CopyShapes(props) {
             console.log(currentShapes);
             const totalSum = dominantHand + pencilGrip + auxiliaryHandFunction + shapes.length;
             const notes = [handNotes, pencilNotes, auxiliaryNotes];
-            // localStorage.setItem('copyShapesData', [copyShapes, dominantHand, pencilGrip, auxiliaryHandFunction, handNotes, pencilNotes, auxiliaryNotes, shapes]);
-            localStorage.setItem('copyShapes', copyShapes);
-            localStorage.setItem('dominantHand', dominantHand);
-            localStorage.setItem('pencilGrip', pencilGrip);
-            localStorage.setItem('auxiliaryHandFunction', auxiliaryHandFunction);
-            localStorage.setItem('handNotes', handNotes);
-            localStorage.setItem('pencilNotes', pencilNotes);
-            localStorage.setItem('auxiliaryNotes', auxiliaryNotes);
-            localStorage.setItem('shapes', shapes);
+            localStorage.setItem('totalSumCSH', totalSum);
+            localStorage.setItem('dominantHandCSH', dominantHand);
+            localStorage.setItem('pencilGripCSH', pencilGrip);
+            localStorage.setItem('auxiliaryHandFunctionCSH', auxiliaryHandFunction);
+            localStorage.setItem('handNotesCSH', handNotes);
+            localStorage.setItem('pencilNotesCSH', pencilNotes);
+            localStorage.setItem('auxiliaryNotesCSH', auxiliaryNotes);
+            localStorage.setItem('accurateShapes', shapes);
         });
         return () => {
             subscription.off();
         };
-    }, [dominantHand, pencilGrip, auxiliaryHandFunction, shapes, copyShapes, handNotes, pencilNotes, auxiliaryNotes]);
+    }, [dominantHand, pencilGrip, auxiliaryHandFunction, shapes, totalSum, handNotes, pencilNotes, auxiliaryNotes]);
 
     const handleCheckboxChange = (event) => {
         console.log(event.target.value);
@@ -60,20 +59,20 @@ export default function CopyShapes(props) {
         setShapes(tempShapes);
         if (!event.target.checked) {
             setAccuracyShapes(accuracyShapes - 1);
-            setCopyShapes(copyShapes - 1)
+            setTotalSum(totalSum - 1)
             if (event.target.value === 'קווים אלכסוניים') {
                 console.log('in if');
                 setAccuracyShapes(accuracyShapes - 2);
-                setCopyShapes(copyShapes - 2)
+                setTotalSum(totalSum - 2)
             }
         }
         else {
             setAccuracyShapes(accuracyShapes + 1);
-            setCopyShapes(copyShapes + 1)
+            setTotalSum(totalSum + 1)
             if (event.target.value === 'קווים אלכסוניים') {
                 console.log('in if');
                 setAccuracyShapes(accuracyShapes + 2);
-                setCopyShapes(copyShapes + 2)
+                setTotalSum(totalSum + 2)
             }
         }
     };
@@ -82,11 +81,11 @@ export default function CopyShapes(props) {
         const index = event.target.value[1];
         if (event.target.value.includes('a')) {
             if (selectValues[index - 1].includes('b'))
-                setCopyShapes(copyShapes + 1);
+                setTotalSum(totalSum + 1);
         }
         else {
             if (selectValues[index - 1].includes('a'))
-                setCopyShapes(copyShapes - 1);
+                setTotalSum(totalSum - 1);
         }
     }
 
@@ -250,7 +249,7 @@ export default function CopyShapes(props) {
                 </Box>
                 <Box sx={{ fontSize: 20, margin: 3 }}>
                     <label><b>  סך הכל העתקת צורות:</b></label>
-                    <label><b> {copyShapes}</b></label>
+                    <label><b> {totalSum}</b></label>
                     <label><b>/{toNum - fromNum + 4}</b></label>
                 </Box>
             </div>

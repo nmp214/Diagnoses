@@ -4,6 +4,7 @@ import SensoryProfile from './Components/SensoryProfile';
 import ResponsiveAppBar from './Components/ResponsiveAppBar';
 import Home from './Components/Home';
 import GIFT from './Components/GIFT';
+import ExtendedResults from './Components/ExtendedResults';
 
 function App() {
   function handleButtonClick() {
@@ -19,6 +20,7 @@ function App() {
         <Routes>
           {/* <Route path='/' Component={ResponsiveAppBar} /> */}
           <Route path="/" Component={Home} />
+          {/* <Route path='about:blank' Component={ExtendedResults}></Route> */}
           <Route path="/SensoryProfile" Component={SensoryProfile} />
           {/* <Route path="/GIFT" component={() => <GIFT onClickCallback={handleButtonClick} />} /> */}
           <Route path="/GIFT" Component={GIFT} />

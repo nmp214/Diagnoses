@@ -10,7 +10,6 @@ import Radio from '@mui/material/Radio';
 import { Box, TextField, Typography } from '@mui/material';
 import eventBus from '../Services/EventBus';
 
-
 export default function Cutting(props) {
     const shapes = props.shapes || [];
     const instruction = props.instruction;
@@ -23,7 +22,7 @@ export default function Cutting(props) {
     const [productShape2, setProductShape2] = React.useState(0);
     const [sequenceShape1, setSequenceShape1] = React.useState(0);
     const [sequenceShape2, setSequenceShape2] = React.useState(0);
-    const [accuracyShapes, setAccuracyShapes] = React.useState(0);
+    const [totalSum, setTotalSum] = React.useState(0);
     const [handNotes, setHandNotes] = React.useState('');
     const [pencilNotes, setPencilNotes] = React.useState('');
     const [auxiliaryNotes, setAuxiliaryNotes] = React.useState('');
@@ -35,17 +34,26 @@ export default function Cutting(props) {
     console.log(fromNum, ' ', toNum);
     React.useEffect(() => {
         const subscription = eventBus.on('buttonClick', () => {
-            if (shapes.length === 1)
-                localStorage.setItem('cuttingData', [accuracyShapes, dominantHand, pencilGrip, auxiliaryHandFunction, productShape1, sequenceShape1,
-                    handNotes, pencilNotes, auxiliaryNotes, productNotes1, sequenceNotes1]);
-            else
-                localStorage.setItem('cuttingData', [accuracyShapes, dominantHand, pencilGrip, auxiliaryHandFunction, productShape1, productShape2, sequenceShape1, sequenceShape2,
-                    handNotes, pencilNotes, auxiliaryNotes, productNotes1, productNotes2, sequenceNotes1, sequenceNotes2]);
+            localStorage.setItem('totalSumC', totalSum);
+            localStorage.setItem('dominantHandC', dominantHand);
+            localStorage.setItem('pencilGripC', pencilGrip);
+            localStorage.setItem('auxiliaryHandFunctionC', auxiliaryHandFunction);
+            localStorage.setItem('productShape1', productShape1);
+            localStorage.setItem('productShape2', productShape2);
+            localStorage.setItem('sequenceShape1', sequenceShape1);
+            localStorage.setItem('sequenceShape2', sequenceShape2);
+            localStorage.setItem('handNotesC', handNotes);
+            localStorage.setItem('pencilNotesC', pencilNotes);
+            localStorage.setItem('auxiliaryNotesC', auxiliaryNotes);
+            localStorage.setItem('productNotes1', productNotes1);
+            localStorage.setItem('productNotes2', productNotes2);
+            localStorage.setItem('sequenceNotes1', sequenceNotes1);
+            localStorage.setItem('sequenceNotes2', sequenceNotes2);
         });
         return () => {
             subscription.off();
         };
-    }, [accuracyShapes, dominantHand, pencilGrip, auxiliaryHandFunction, productShape1, productShape2, sequenceShape1, sequenceShape2,
+    }, [totalSum, dominantHand, pencilGrip, auxiliaryHandFunction, productShape1, productShape2, sequenceShape1, sequenceShape2,
         handNotes, pencilNotes, auxiliaryNotes, productNotes1, productNotes2, sequenceNotes1, sequenceNotes2]);
 
 
@@ -58,11 +66,11 @@ export default function Cutting(props) {
         console.log(index);
         if (event.target.value.includes('a')) {
             if (selectValues[index].includes('b'))
-                setAccuracyShapes(accuracyShapes + 1);
+                setTotalSum(totalSum + 1);
         }
         else {
             if (selectValues[index].includes('a'))
-                setAccuracyShapes(accuracyShapes - 1);
+                setTotalSum(totalSum - 1);
         }
     }
 
@@ -153,6 +161,9 @@ export default function Cutting(props) {
 
 
     return (<>
+        <Typography variant="h2" color={'white'} fontSize={'80px'} width={550} left={100} fontFamily={'Segoe UI'} >
+            ברוכים הבאים
+        </Typography>
         <Box sx={{ width: '100%' }} >
             <div style={{ display: 'flex' }}>
                 <span style={{ marginLeft: 4 }}> (מספריים)- </span>
@@ -307,7 +318,7 @@ export default function Cutting(props) {
             <div >
                 <Box sx={{ fontSize: 20, margin: 3 }}>
                     <label><b>  סך הכל גזירה:</b></label>
-                    <label><b> {accuracyShapes}</b></label>
+                    <label><b> {totalSum}</b></label>
                     <label><b>/{shapes.length * 2 + 3}</b></label>
                 </Box>
             </div>

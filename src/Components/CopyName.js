@@ -28,32 +28,36 @@ export default function CopyName(props) {
     const [readabilityNotes, setReadabilityNotes] = React.useState('');
     const [organizationNotes, setOrganizationNotes] = React.useState('');
     const [readAndOrganNotes, setReadAndOrganNotes] = React.useState('');
-    const [copyName, setCopyName] = React.useState(0);
+    const [totalSum, setTotalSum] = React.useState(0);
 
     React.useEffect(() => {
         const subscription = eventBus.on('buttonClick', () => {
-            if (ageRange === '4-5')
-                localStorage.setItem('copyNameData', [copyName, accuracy, readability, organization, accurateNotes, readabilityNotes, organizationNotes]);
-            else
-                localStorage.setItem('copyNameData', [copyName, accuracy, readabilityAndOrganization, accurateNotes, readAndOrganNotes]);
-
+            localStorage.setItem('totalSumCN', totalSum);
+            localStorage.setItem('accuracy', accuracy);
+            localStorage.setItem('readability', readability);
+            localStorage.setItem('organization', organization);
+            localStorage.setItem('readabilityAndOrganization', readabilityAndOrganization);
+            localStorage.setItem('accurateNotes', accurateNotes);
+            localStorage.setItem('readabilityNotes', readabilityNotes);
+            localStorage.setItem('organizationNotes', organizationNotes);
+            localStorage.setItem('readAndOrganNotes', readAndOrganNotes);
         });
         return () => {
             subscription.off();
         };
-    }, [copyName, accuracy, readability, organization, readabilityAndOrganization,
-    accurateNotes, readabilityNotes, organizationNotes, readAndOrganNotes]);
+    }, [totalSum, accuracy, readability, organization, readabilityAndOrganization,
+        accurateNotes, readabilityNotes, organizationNotes, readAndOrganNotes]);
 
     const handleRadioChanges = (event) => {
         console.log('in handleRadioChanges', event.target.value);
         const index = event.target.value[1];
         if (event.target.value.includes('a')) {
             if (selectValues[index - 1].includes('b'))
-                setCopyName(copyName + 1);
+                setTotalSum(totalSum + 1);
         }
         else {
             if (selectValues[index - 1].includes('a'))
-                setCopyName(copyName - 1);
+                setTotalSum(totalSum - 1);
         }
     }
 
@@ -259,7 +263,7 @@ export default function CopyName(props) {
             <div >
                 <Box sx={{ fontSize: 20, margin: 3 }}>
                     <label><b>  סך הכל העתקת שם:</b></label>
-                    <label><b> {copyName}</b></label>
+                    <label><b> {totalSum}</b></label>
                     {ageRange === '4-5' &&
                         <label><b>/3</b></label>
                         ||
