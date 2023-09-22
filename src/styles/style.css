@@ -1,7 +1,9 @@
 * {
     font-family: inherit;
     background-color: brown;
+    direction: rtl;
 }
 #hello {
     color: blueviolet;
+    font-size: large;
 }

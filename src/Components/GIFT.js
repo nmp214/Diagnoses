@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { Button, FormControl, Grid, InputLabel, MenuItem, Paper, Select, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
+import { ThemeProvider, createTheme, CssBaseline } from '@mui/material';
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
 import CopyShapes from './CopyShapes';
@@ -57,12 +58,18 @@ export default function GIFT() {
     const [cuttingNotes, setCuttingNotes] = React.useState('');
     const [drawManNotes, setDrawManNotes] = React.useState('');
     const [totalSummary, setTotalSummary] = React.useState(0);
-
+    const theme = createTheme();
     const openExtendedResults = () => {
         const newWindow = window.open('', '_blank');
-        newWindow.document.write('<html><head><title>תוצאות מורחבות</title></head><style>*{font-family: Segoe UI; text-align: right;}</style><body><div id="root"></div></body></html>');
+        newWindow.document.write('<html><head><title>תוצאות מורחבות</title></head><body><div id="root"></div><div id="hello">hello<div></body></html>');
         const newWindowRoot = newWindow.document.getElementById('root');
-        ReactDOM.render(<ExtendedResults toNum={toNumCopyShapes} fromNum={fromNumCopyShapes} paintingShapes={paintingShapes} />, newWindowRoot);
+        ReactDOM.render(
+            <ThemeProvider theme={theme}>
+                <CssBaseline /> {/* Reset CSS styles */}
+                <ExtendedResults toNum={toNumCopyShapes} fromNum={fromNumCopyShapes} paintingShapes={paintingShapes} cuttingShapes={cuttingShapes} />
+            </ThemeProvider>,
+            newWindowRoot
+        );
     };
 
     const something = (event) => {
@@ -75,6 +82,7 @@ export default function GIFT() {
         localStorage.setItem('name', name);
         localStorage.setItem('age', age);
         localStorage.setItem('ageRange', ageRange);
+        localStorage.setItem('range', range);
         localStorage.setItem('copyShapesNotes', copyShapesNotes);
         localStorage.setItem('paintingNotes', paintingNotes);
         localStorage.setItem('cuttingNotes', cuttingNotes);
@@ -85,14 +93,14 @@ export default function GIFT() {
 
     const handleResult = () => {
         console.log('in handleResult');
-        const copyShapes = parseInt(localStorage.getItem('copyShapesData')[0]);
-        const painting = parseInt(localStorage.getItem('paintingData')[0]);
-        const cutting = parseInt(localStorage.getItem('cuttingData')[0]);
-        const drawMan = parseInt(localStorage.getItem('drawManData')[0]);
-        const copyName = parseInt(localStorage.getItem('copyNameData')[0]);
-        const writingAB = parseInt(localStorage.getItem('writingABData')[0]);
-        const writingNums = parseInt(localStorage.getItem('writingNumsData')[0]);
-        const phoneticWriting = parseInt(localStorage.getItem('phoneticWritingData')[0]);
+        const copyShapes = parseInt(localStorage.getItem('totalSumCSH'));
+        const painting = parseInt(localStorage.getItem('totalSumP'));
+        const cutting = parseInt(localStorage.getItem('totalSumC'));
+        const drawMan = parseInt(localStorage.getItem('totalSumDM'));
+        const copyName = parseInt(localStorage.getItem('totalSumCN'));
+        const writingAB = parseInt(localStorage.getItem('totalSumWAB'));
+        const writingNums = parseInt(localStorage.getItem('totalSumWN'));
+        const phoneticWriting = parseInt(localStorage.getItem('totalSumPW'));
         setTotalSummary(copyShapes + painting + cutting + drawMan + copyName + writingAB + writingNums + phoneticWriting);
     }
 
@@ -227,7 +235,7 @@ export default function GIFT() {
                                     alignItems="flex-start"
                                 >
                                     <Box sx={{ maxWidth: 900 }}>
-                                        <CopyName ageRange={range} instruction1={instructions[2]} instruction2={instructions[3]}/>
+                                        <CopyName ageRange={range} instruction1={instructions[2]} instruction2={instructions[3]} />
                                     </Box>
                                 </Grid>
                             </RoundedPaper>

@@ -1,7 +1,9 @@
 import { Box, Button, Typography } from "@mui/material";
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import img from '../assets/border.png'
 import DownloadIcon from '@mui/icons-material/Download';
+import html2canvas from 'html2canvas';
+import React from "react";
 
 export default function ShortResult(props) {
     const name = props.name;
@@ -75,45 +77,77 @@ export default function ShortResult(props) {
                     setDescription(descriptions[2]);
             }
         }
+        const handleDownloadClick = () => {
+            console.log('in handleDownloadClick');
+            const elementToCapture = document.getElementById('component-root');
+
+            if (elementToCapture) {
+                console.log('true');
+                html2canvas(elementToCapture).then((canvas) => {
+                    // Convert the canvas to a data URL (default is PNG, but you can specify JPEG)
+                    const imgDataUrl = canvas.toDataURL('image/png');
+
+                    // Create an anchor element for downloading
+                    const anchor = document.createElement('a');
+                    anchor.href = imgDataUrl;
+                    anchor.download = 'short-result.png';
+
+                    // Trigger a click event on the anchor to start the download
+                    anchor.click();
+                });
+            }
+        };
+        document.getElementById('downloadButton').addEventListener('click', handleDownloadClick);
+        return () => {
+            document.getElementById('downloadButton').removeEventListener('click', handleDownloadClick);
+        };
     }, [totalSummary, range, ageRange]);
 
-    return (<Box sx={{ margin: '4%' }}
-        style={{
-            position: 'relative',
-            overflow: 'hidden'
-        }}>
-        <img src={img}
-            style={{
-                position: 'relative',
-                top: 0,
-                left: 0,
-                width: '50%',
-                height: '50%',
-                objectFit: 'cover',
-                zIndex: -1
-            }} />
-        <div style={{
-            position: 'absolute',
-            top: '40%',
-            left: '50%',
-            transform: 'translate(-50%, -50%)',
-            textAlign: 'center',
-            zIndex: 1,
-        }}>
-            <Button style={{ alignSelf: 'end' }}><DownloadIcon color="action"/></Button>
-            <Typography variant="subtitle1" fontFamily={'inherit'}
-                style={{
-                    textAlign: 'right'
-                }}>שם: {name} </Typography>
-            <br />
-            <Typography variant="h6" fontFamily={'inherit'}>
-                <label> ציון סופי לאבחון GIFT:</label> <br />
-                <label><b>{totalSummary}</b></label>
-                <label><b>/{fromTotalSummary}</b></label>
-            </Typography>
-            <br />
-            <Typography variant="h6" fontFamily={'inherit'}>תיאור ממצאי אבחון: </Typography>
-            <Typography variant="h6" fontFamily={'inherit'}><b>{description}</b></Typography>
-        </div>
-    </Box>)
+
+    return (
+        <>
+            <div id="component-root">
+                <Box id="component-root" sx={{ margin: '4%' }}
+                    style={{
+                        position: 'relative',
+                        overflow: 'hidden'
+                    }}>
+                    <img src={img}
+                        style={{
+                            position: 'relative',
+                            top: 0,
+                            left: 0,
+                            width: '50%',
+                            height: '50%',
+                            objectFit: 'cover',
+                            zIndex: -1
+                        }} />
+                    <div style={{
+                        position: 'absolute',
+                        top: '40%',
+                        left: '50%',
+                        transform: 'translate(-50%, -50%)',
+                        textAlign: 'center',
+                        zIndex: 1,
+                    }}>
+                        <Typography variant="subtitle1" fontFamily={'inherit'}
+                            style={{
+                                textAlign: 'right'
+                            }}>שם: {name} </Typography>
+                        {/* <button id="downloadButton">Download as Image</button> */}
+
+                        <br />
+                        <Typography variant="h6" fontFamily={'inherit'}>
+                            <label> ציון סופי לאבחון GIFT:</label> <br />
+                            <label><b>{totalSummary}</b></label>
+                            <label><b>/{fromTotalSummary}</b></label>
+                        </Typography>
+                        <br />
+                        <Typography variant="h6" fontFamily={'inherit'}>תיאור ממצאי אבחון: </Typography>
+                        <Typography variant="h6" fontFamily={'inherit'}><b>{description}</b></Typography>
+                    </div>
+                </Box>
+            </div>
+            <Button id="downloadButton" style={{ alignSelf: 'end' }}><DownloadIcon color="action" /></Button>
+        </>)
 }

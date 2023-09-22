@@ -9,10 +9,12 @@
     "@mui/icons-material": "^5.14.3",
     "@mui/material": "^5.14.5",
     "@mui/styled-engine-sc": "^5.12.0",
+    "@mui/system": "^5.14.5",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "eventemitter3": "^5.0.1",
+    "html2canvas": "^1.4.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.15.0",
@@ -27,6 +29,9 @@
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
+    "plugins": [
+      "react"
+    ],
     "extends": [
       "react-app",
       "react-app/jest"

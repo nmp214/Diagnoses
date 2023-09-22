@@ -32,6 +32,7 @@ export default function PhoneticWriting(props) {
     React.useEffect(() => {
         const subscription = eventBus.on('buttonClick', () => {
             localStorage.setItem('totalSumPW',totalSum);
+            localStorage.setItem('fromTotalSumPW', 8);
             localStorage.setItem('fish',fish);
             localStorage.setItem('dog',dog);
             localStorage.setItem('cat',cat);
@@ -148,7 +149,7 @@ export default function PhoneticWriting(props) {
                 </TableHead>
                 <TableBody>
                     {rows.map((row, rowIndex) =>
-                        <TableRow>
+                        <TableRow key={rowIndex}>
                             <TableCell align="right">{row}</TableCell>
                             {[2, 1, 0].map(index =>
                                 <TableCell key={index}

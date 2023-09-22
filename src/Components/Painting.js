@@ -43,6 +43,7 @@ export default function Painting(props) {
     React.useEffect(() => {
         const subscription = eventBus.on('buttonClick', () => {
             localStorage.setItem('totalSumP', totalSum);
+            localStorage.setItem('fromTotalSumP', shapes.length * 2 + 3);
             localStorage.setItem('dominantHandP', dominantHand);
             localStorage.setItem('pencilGripP', pencilGrip);
             localStorage.setItem('auxiliaryHandFunctionP', auxiliaryHandFunction);

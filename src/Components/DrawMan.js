@@ -10,6 +10,7 @@ export default function DrawMan(props) {
     React.useEffect(() => {
         const subscription = eventBus.on('buttonClick', () => {
             localStorage.setItem('totalSumDM', totalSum);
+            localStorage.setItem('fromTotalSumDM', organsNumber);
             localStorage.setItem('notesDM', notes);
         });
         return () => {

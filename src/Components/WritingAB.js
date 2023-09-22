@@ -17,6 +17,7 @@ export default function WritingAB(props) {
     React.useEffect(() => {
         const subscription = eventBus.on('buttonClick', () => {
             localStorage.setItem('totalSumWAB', parseInt(selectedValue));
+            localStorage.setItem('fromTotalSumWAB', 5);
             localStorage.setItem('notesWAB', notes);
         });
         return () => {

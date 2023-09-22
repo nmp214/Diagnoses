@@ -39,6 +39,7 @@ export default function CopyShapes(props) {
             const totalSum = dominantHand + pencilGrip + auxiliaryHandFunction + shapes.length;
             const notes = [handNotes, pencilNotes, auxiliaryNotes];
             localStorage.setItem('totalSumCSH', totalSum);
+            localStorage.setItem('fromTotalSumCSH', toNum - fromNum + 4);
             localStorage.setItem('dominantHandCSH', dominantHand);
             localStorage.setItem('pencilGripCSH', pencilGrip);
             localStorage.setItem('auxiliaryHandFunctionCSH', auxiliaryHandFunction);
@@ -180,7 +181,7 @@ export default function CopyShapes(props) {
                                 <Radio {...controlProps1('b1')} color="success" />
                                 לא ברור
                             </TableCell>
-                            <TableCell><TextField multiline value={handNotes} onChange={(event) => setHandNotes(event.target.value)}/></TableCell>
+                            <TableCell><TextField multiline value={handNotes} onChange={(event) => setHandNotes(event.target.value)} /></TableCell>
                         </TableRow>
                         <TableRow
                             key='pencilGrip'
@@ -195,7 +196,7 @@ export default function CopyShapes(props) {
                             <TableCell align="right" onChange={handleRadioChanges}>
                                 <Radio {...controlProps2('b2')} color="success" />
                                 לא יעילה</TableCell>
-                                <TableCell><TextField multiline value={pencilNotes} onChange={(event) => setPencilNotes(event.target.value)}/></TableCell>
+                            <TableCell><TextField multiline value={pencilNotes} onChange={(event) => setPencilNotes(event.target.value)} /></TableCell>
                         </TableRow>
                         <TableRow
                             key='auxiliaryHandFunction'
@@ -210,7 +211,7 @@ export default function CopyShapes(props) {
                             <TableCell align="right" onChange={handleRadioChanges}>
                                 <Radio {...controlProps3('b3')} color="success" />
                                 חלקי</TableCell>
-                                <TableCell><TextField multiline value={auxiliaryNotes} onChange={(event) => setAuxiliaryNotes(event.target.value)}/></TableCell>
+                            <TableCell><TextField multiline value={auxiliaryNotes} onChange={(event) => setAuxiliaryNotes(event.target.value)} /></TableCell>
                         </TableRow>
                     </TableBody>
                 </Table>

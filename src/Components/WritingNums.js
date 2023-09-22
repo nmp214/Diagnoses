@@ -18,6 +18,7 @@ export default function WritingNums() {
     React.useEffect(() => {
         const subscription = eventBus.on('buttonClick', () => {
             localStorage.setItem('totalSumWN', parseInt(writingNums));
+            localStorage.setItem('fromTotalSumWN', 5);
             localStorage.setItem('notesWN', notes);
         });
         return () => {

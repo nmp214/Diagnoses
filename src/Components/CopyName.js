@@ -33,6 +33,10 @@ export default function CopyName(props) {
     React.useEffect(() => {
         const subscription = eventBus.on('buttonClick', () => {
             localStorage.setItem('totalSumCN', totalSum);
+            if (ageRange === '4-5')
+                localStorage.setItem('fromTotalSumCN', 3);
+            else
+                localStorage.setItem('fromTotalSumCN', 2);
             localStorage.setItem('accuracy', accuracy);
             localStorage.setItem('readability', readability);
             localStorage.setItem('organization', organization);

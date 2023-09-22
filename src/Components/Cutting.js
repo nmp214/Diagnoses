@@ -35,6 +35,7 @@ export default function Cutting(props) {
     React.useEffect(() => {
         const subscription = eventBus.on('buttonClick', () => {
             localStorage.setItem('totalSumC', totalSum);
+            localStorage.setItem('fromTotalSumC', shapes.length * 2 + 3);
             localStorage.setItem('dominantHandC', dominantHand);
             localStorage.setItem('pencilGripC', pencilGrip);
             localStorage.setItem('auxiliaryHandFunctionC', auxiliaryHandFunction);
@@ -161,9 +162,6 @@ export default function Cutting(props) {
 
 
     return (<>
-        <Typography variant="h2" color={'white'} fontSize={'80px'} width={550} left={100} fontFamily={'Segoe UI'} >
-            ברוכים הבאים
-        </Typography>
         <Box sx={{ width: '100%' }} >
             <div style={{ display: 'flex' }}>
                 <span style={{ marginLeft: 4 }}> (מספריים)- </span>
